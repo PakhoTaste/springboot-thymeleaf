@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/myCss.css}" rel="stylesheet">
+    <script th:src="@{/js/thymeleaf.js}"></script>
+    <script>
+        t();
+    </script>
+</head>
+<body>
+<p th:text="${name}"></p>
+<p th:utext="${red}"></p>
+<div th:replace="include::footer1(zhangsan,24)"></div>
+
+<div th:unless="boolen">boolen是true,,,</div>
+
+<br>
+<div class="odd">12323</div>
+<table th:each="p,status:${ps}">
+    <tr th:class="${status.odd}?'odd':'even'">
+        <td th:text="${status.index}">index</td><td th:text="${status.count}">count</td>
+        <td th:text="${status.even}">even</td><td th:text="${status.odd}">odd</td>
+        <td th:text="${status.size}">size</td><td th:text="${status.current.id}">current</td>
+        <td th:text="${p.id}"></td><td th:text="${p.name}"></td><td th:text="${p.price}"></td>
+    </tr>
+
+</table>
+
+<h2>select</h2>
+<select>
+    <option th:each="p:${ps}" th:text="${p.name}" th:value="${p.id}" th:selected="${id==p.id}"></option>
+
+</select>
+<br>
+<h2>checkbox</h2>
+<div>
+<input type="checkbox" th:each="p:${ps}" th:value="${p.id}" th:text="${p.name}" th:checked="${id==p.id}" />
+</div>
+
+<hr>
+
+<div th:text="${#dates.format(now,'yyyy-MM-dd HH:mm:ss')}"></div>
+<div th:text="${#lists.isEmpty(ps)}"></div>
+</body>
+</html>
