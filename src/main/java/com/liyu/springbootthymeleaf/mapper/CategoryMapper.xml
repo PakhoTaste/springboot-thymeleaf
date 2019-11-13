@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liyu.springbootthymeleaf.mapper.CategoryMapper">
+    <select id="getAll" resultType="com.liyu.springbootthymeleaf.entity.Category">
+        select * from category_
+    </select>
+    <select id="getOne" resultType="com.liyu.springbootthymeleaf.entity.Category" parameterType="String">
+        select * from category_ where id = #{id}
+    </select>
+    <insert id="add" parameterType="com.liyu.springbootthymeleaf.entity.Category">
+        insert into category_ values (#{id} , #{name})
+    </insert>
+    <update id="update" parameterType="com.liyu.springbootthymeleaf.entity.Category">
+        update category_ set name = #{name} where id = #{id}
+    </update>
+    <delete id="delete" parameterType="String">
+        delete from category_ where id = #{id}
+    </delete>
+</mapper>

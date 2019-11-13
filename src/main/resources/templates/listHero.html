@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <table>
+        <tr>
+            <td>英雄名称</td>
+            <td>血量</td>
+            <td>操作</td>
+            <td>操作</td>
+        </tr>
+        <tr v-for="hero in heros">
+            <td>{{hero.name}}</td>
+            <td>{{hero.hp}}</td>
+            <td><a :href="'editHero?id='+hero.id">编辑</a></td>
+            <td><a @click="deletemethod(hero.id)" href="#nowhere">删除</a></td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <input type="text" v-model="hero4Add.name">
+            </td>
+            <td>
+                <input type="text" v-model="hero4Add.hp">
+            </td>
+           <td>
+               <button type="button" @click="addmethod()" >增加</button>
+           </td>
+            </tr>
+
+    </table>
+
+</div>
+
+<script>
+    var data4Vue = {
+        heros: [],
+        hero4Add: { id: 0, name: '', hp: '0'},
+        pagination:{}
+    };
+    //ViewModel
+    var vue = new Vue({
+        el: '#app',
+        data: data4Vue,
+        mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+            this.list(1);
+            axios.get("http://localhost:8080/hero1").then(function (value) {
+                console.log(value.data);
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+        methods: {
+            list:function(start){
+                var url = "heros?start="+start;
+                axios.get(url).then(function(response) {
+                    vue.pagination = response.data;
+                    console.log(vue.pagination);
+                    vue.heros = response.data.list;
+
+                })
+            },
+            addmethod:function () {
+                axios.post("heros",this.hero4Add).then(function (value) {
+                    vue.list(1);
+                    vue.hero4Add= { id: 0, name: '', hp: '0'};
+                });
+            },
+            deletemethod:function (id) {
+                var url = "heros/"+id;
+                axios.delete(url).then(function (value) {
+                    vue.list(1);
+                });
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

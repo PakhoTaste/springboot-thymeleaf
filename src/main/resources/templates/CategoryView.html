@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<form action="/Category/1" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="_method" value="delete"/>
+    <input type="submit" value="dianwo"/>
+</form>
+<hr>
+<table>
+    <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>编辑</td>
+        <td>删除</td>
+    </tr>
+    <tr th:each="c,stuts:${cs}">
+        <td id="id">[[${c.id}]]</td>
+        <td>[[${c.name}]]</td>
+        <td>
+            <a id="updateBtn" type="button" th:text="编辑" th:href="@{/edit(id=${c.id})}"></a>
+        </td>
+        <td>
+            <a type="button" th:text="删除" th:href="@{/delete(id=${c.id})}"></a>
+
+        </td>
+    </tr>
+</table>
+
+
+<form action="/add" method="post"><input value="增加" type="submit"></form>
+
+<div>
+
+
+    <a th:href="@{/Category(start=0)}">[首  页]</a>
+    <a th:href="@{/Category(start=${page.pageNum-1})}" >[上一页]</a>
+    <a th:href="@{/Category(start=${page.pageNum+1})}">[下一页]</a>
+    <a th:href="@{/Category(start=${page.pages})}">[末  页]</a><br>
+    当前在第<span th:text="${page.pageNum}"></span>页,共<span th:text="${page.pages}"></span>页
+</div>
+</body>
+<script>
+
+</script>
+</html>
